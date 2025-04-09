@@ -123,10 +123,7 @@ Future Implementation:
 - Considering user’s constraints/preferences when generating the workflows (M30)
 
 ## Demo  <a name="Demo"></a>
-The following video showcases a demo of the Intents to Workflows component
-<div style="text-align: center;">
-  <video width="800" controls src="demo_I2W.mp4" title="Title"></video>
-</div>
+The following [video](demo_I2W.mp4) showcases a demo of the Intents to Workflows component.
 
 ## License  <a name="License"></a>
 This project is licensed under the GNU General Public License v3.0 - see the LICENSE file for details. 
