@@ -1,0 +1,11 @@
+**/.DS_Store
+**/__pycache__/
+**/uploads/
+llm/.env
+automl/.env
+kge-recommendation/.env
+instance
+automl/data/preprocessed
+automl/data
+prototype
+automl/results

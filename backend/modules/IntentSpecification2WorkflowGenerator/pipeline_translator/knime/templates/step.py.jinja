@@ -1,0 +1,65 @@
+{%- macro render_element(element) -%}
+{%- if element[1] is none -%}
+<entry key="{{ element[0] }}" type="{{ element[2] }}" isnull="true" value="" />
+{%- else -%}
+<entry key="{{ element[0] }}" type="{{ element[2] }}" value="{{ element[1] | escape }}" />
+{%- endif -%}
+{%- endmacro -%}
+{%- macro render_parameter_tree(parameters) -%}
+    {%- for element in parameters['elements'] -%}
+    {{ render_element(element) }}
+    {%- if not loop.last %}
+    {% endif -%}
+    {%- endfor -%}
+    {%- if parameters['elements']|length > 0 and parameters['folders']|length > 0%}
+    {% endif -%}
+    {%- for key, value in parameters['folders'].items() -%}
+    {%- if value['elements']|length == 0 and value['folders']|length == 0 -%}
+    <config key="{{ key }}" />
+    {%- else -%}
+    <config key="{{ key }}">
+    {{ render_parameter_tree(value) | indent(4,true) }}
+    </config>
+    {%- endif -%}  
+    {%- if not loop.last %}
+    {% endif -%}
+    {%- endfor -%}
+{%- endmacro -%}
+<?xml version='1.0' encoding='UTF-8'?>
+<config xmlns="http://www.knime.org/2008/09/XMLConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knime.org/2008/09/XMLConfig http://www.knime.org/XMLConfig_2008_09.xsd" key="settings.xml">
+    <entry key="node_file" type="xstring" value="settings.xml" />
+    <entry key="customDescription" type="xstring" isnull="true" value="" />
+    <entry key="state" type="xstring" value="CONFIGURED" />
+    <entry key="hasContent" type="xboolean" value="false" />
+    <entry key="isInactive" type="xboolean" value="false" />
+    <config key="flow_stack" />
+    {% for key, value in properties.items() -%}
+    <entry key="{{ key }}" type="xstring" value="{{ value }}" />
+    {% endfor -%}
+    {{ render_parameter_tree(parameters) }}
+    {%- if 'factory_settings' not in parameters['folders'] %}
+    <config key="factory_settings" />
+    {% endif -%}
+    <config key="filestores">
+        <entry key="file_store_location" type="xstring" isnull="true" value="" />
+        <entry key="file_store_id" type="xstring" isnull="true" value="" />
+    </config>
+    <config key="internal_node_subsettings">
+        <entry key="memory_policy" type="xstring" value="CacheSmallInMemory" />
+    </config>
+    {% if num_ports > 0 -%}
+    <config key="ports">
+    {%- for i in range(num_ports) %}
+        <config key="port_{{ i+1 }}">
+            <entry key="index" type="xint" value="{{ i+1 }}" />
+            <entry key="port_dir_location" type="xstring" isnull="true" value="" />
+        </config>
+    {%- endfor %}
+    </config>
+    {%- else -%}
+    <config key="ports" />
+    {%- endif %}
+</config>
+
+
+

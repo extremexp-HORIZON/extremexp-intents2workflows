@@ -1,0 +1,9 @@
+fastapi
+sqlalchemy
+uvicorn
+flask
+flask-cors
+openai
+llamaapi
+python-dotenv
+python-multipart

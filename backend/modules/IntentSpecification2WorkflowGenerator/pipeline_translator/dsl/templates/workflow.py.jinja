@@ -1,0 +1,33 @@
+{% if header == True %}package {{ intent_name }};
+
+{% endif %}
+workflow {{ workflow_name }} {
+
+    {% for task in tasks %} 
+    define task {{ task }};{% endfor %}
+
+
+    START{% for task in tasks%} -> {{ task }}{% endfor %} -> END;
+
+    {% for task in tasks %}
+    task {{ task }} {
+        implementation "{{ intent_name }}.{{ task_implementations[task].split('-')[1] }}";
+    }
+    {% endfor %}
+
+    {% for input in inputs[tasks[0]] %}
+    define input data {{ input }};
+
+    configure data {{ input }} {
+        path "/**";
+    }
+    {% else %}
+    define input data InputData;
+
+    configure data InputData {
+        path "./{{ path.split('\\')[-1] }}"
+    }
+    {% endfor %}
+
+    
+}

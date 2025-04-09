@@ -1,0 +1,7 @@
+flask
+flask-cors
+ollama
+python-dotenv
+rdflib
+pandas
+pykeen
